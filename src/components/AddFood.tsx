@@ -1,18 +1,13 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./AddFood.module.css";
-import { IoCamera, IoImage, IoAdd } from "react-icons/io5";
-
-interface FoodData {
-  name: string;
-  calories: number;
-  protein: number;
-  carbs: number;
-  fats: number;
-  servingSize: number;
-}
+import { IoCamera, IoImage, IoAdd, IoCheckmark } from "react-icons/io5";
+import { useFood, NewFoodEntry } from "../context/FoodContext";
 
 const AddFood = () => {
-  const [foodData, setFoodData] = useState<FoodData>({
+  const navigate = useNavigate();
+  const { addFood, updateFood, selectedFood, selectFood } = useFood();
+  const [foodData, setFoodData] = useState<NewFoodEntry>({
     name: "",
     calories: 0,
     protein: 0,
@@ -23,9 +18,18 @@ const AddFood = () => {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    if (selectedFood) {
+      const { id, date, ...foodWithoutIdAndDate } = selectedFood;
+      setFoodData(foodWithoutIdAndDate);
+    }
+    // Cleanup function to clear selected food when component unmounts
+    return () => selectFood(null);
+  }, [selectedFood, selectFood]);
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    field: keyof FoodData
+    field: keyof NewFoodEntry
   ) => {
     const value =
       e.target.type === "number" ? Number(e.target.value) : e.target.value;
@@ -49,10 +53,19 @@ const AddFood = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Handle form submission
-    console.log("Submit food data:", foodData);
+    try {
+      if (selectedFood) {
+        await updateFood(selectedFood.id, foodData);
+      } else {
+        await addFood(foodData);
+      }
+      navigate('/');
+    } catch (error) {
+      console.error('Error saving food:', error);
+      // TODO: Show error message to user
+    }
   };
 
   return (
@@ -112,45 +125,45 @@ const AddFood = () => {
           />
         </div>
 
-          <div className={styles.inputGroup}>
-            <label htmlFor="protein">Protein (g)</label>
-            <input
-              type="number"
-              id="protein"
-              value={foodData.protein}
-              onChange={(e) => handleInputChange(e, "protein")}
-              min="0"
-              required
-            />
-          </div>
+        <div className={styles.inputGroup}>
+          <label htmlFor="protein">Protein (g)</label>
+          <input
+            type="number"
+            id="protein"
+            value={foodData.protein}
+            onChange={(e) => handleInputChange(e, "protein")}
+            min="0"
+            required
+          />
+        </div>
 
-          <div className={styles.inputGroup}>
-            <label htmlFor="carbs">Carbs (g)</label>
-            <input
-              type="number"
-              id="carbs"
-              value={foodData.carbs}
-              onChange={(e) => handleInputChange(e, "carbs")}
-              min="0"
-              required
-            />
-          </div>
+        <div className={styles.inputGroup}>
+          <label htmlFor="carbs">Carbs (g)</label>
+          <input
+            type="number"
+            id="carbs"
+            value={foodData.carbs}
+            onChange={(e) => handleInputChange(e, "carbs")}
+            min="0"
+            required
+          />
+        </div>
 
-          <div className={styles.inputGroup}>
-            <label htmlFor="fats">Fats (g)</label>
-            <input
-              type="number"
-              id="fats"
-              value={foodData.fats}
-              onChange={(e) => handleInputChange(e, "fats")}
-              min="0"
-              required
-            />
-          </div>
+        <div className={styles.inputGroup}>
+          <label htmlFor="fats">Fats (g)</label>
+          <input
+            type="number"
+            id="fats"
+            value={foodData.fats}
+            onChange={(e) => handleInputChange(e, "fats")}
+            min="0"
+            required
+          />
+        </div>
 
         <button type="submit" className={styles.submitButton}>
-          <IoAdd />
-          Add Food
+          {selectedFood ? <IoCheckmark /> : <IoAdd />}
+          {selectedFood ? "Update Food" : "Add Food"}
         </button>
       </form>
     </div>
