@@ -8,6 +8,7 @@ import {
 import styles from "./App.module.css";
 import Settings from "./components/Settings";
 import Goals from "./components/Goals";
+import AddFood from "./components/AddFood";
 import { ThemeProvider } from "./context/ThemeContext";
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
           <main className={styles.mainContent}>
             <Routes>
               <Route path="/" element={<div>Home Page</div>} />
-              <Route path="/add" element={<div>Add Food</div>} />
+              <Route path="/add" element={<AddFood />} />
               <Route path="/history" element={<div>History</div>} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/goals" element={<Goals />} />

@@ -1,0 +1,125 @@
+.container {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.imageOptions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.imageButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  height: 140px;
+  border: 2px dashed #374151;
+  border-radius: 8px;
+  background: transparent;
+  color: #9CA3AF;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 1rem;
+}
+
+.imageButton:hover {
+  border-color: #3B82F6;
+  color: #3B82F6;
+}
+
+.imageButton svg {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.fileInput {
+  display: none;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.inputGroup label {
+  font-size: 0.9rem;
+  color: #9CA3AF;
+  text-transform: uppercase;
+}
+
+.inputGroup input {
+  background: transparent;
+  border: 2px solid #374151;
+  border-radius: 6px;
+  padding: 0.75rem;
+  color: inherit;
+  font-size: 1rem;
+}
+
+.inputGroup input:focus {
+  outline: none;
+  border-color: #3B82F6;
+}
+
+.macrosGrid {
+  display: flex;
+}
+
+.submitButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #3B82F6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 1rem;
+}
+
+.submitButton:hover {
+  background-color: #2563EB;
+}
+
+.submitButton svg {
+  font-size: 1.25rem;
+}
+
+/* Theme-specific styles */
+:root[data-theme="light"] .imageButton {
+  border-color: #E5E7EB;
+  color: #6B7280;
+}
+
+:root[data-theme="light"] .imageButton:hover {
+  border-color: #2563EB;
+  color: #2563EB;
+}
+
+:root[data-theme="light"] .inputGroup label {
+  color: #6B7280;
+}
+
+:root[data-theme="light"] .inputGroup input {
+  border-color: #E5E7EB;
+}
+
+:root[data-theme="light"] .inputGroup input:focus {
+  border-color: #2563EB;
+}
