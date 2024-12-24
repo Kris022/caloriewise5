@@ -4,16 +4,12 @@ import styles from "./Settings.module.css";
 import { IoArrowBack, IoChevronForward } from "react-icons/io5";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { IoMdNotifications, IoMdNotificationsOff } from "react-icons/io";
+import { useTheme } from "../context/ThemeContext";
 
 const Settings = () => {
   const navigate = useNavigate();
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const { theme, toggleTheme } = useTheme();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
-
-  const handleThemeToggle = () => {
-    setIsDarkMode(!isDarkMode);
-    // TODO: Implement theme switching logic
-  };
 
   const handleNotificationsToggle = () => {
     setNotificationsEnabled(!notificationsEnabled);
@@ -33,9 +29,9 @@ const Settings = () => {
         <h2>Appearance</h2>
         <div className={styles.settingItem}>
           <span>Theme</span>
-          <button className={styles.themeToggle} onClick={handleThemeToggle}>
-            {isDarkMode ? <MdLightMode /> : <MdDarkMode />}
-            {isDarkMode ? "Light Mode" : "Dark Mode"}
+          <button className={styles.themeToggle} onClick={toggleTheme}>
+            {theme === 'dark' ? <MdLightMode /> : <MdDarkMode />}
+            {theme === 'dark' ? "Light Mode" : "Dark Mode"}
             <IoChevronForward />
           </button>
         </div>
